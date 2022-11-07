@@ -5,6 +5,7 @@ The Complete Web Developer
 
 Is a code along exercise that involve different states
 with some of the most used technologies nowadays
+
 1 - Front-End:
 React.Js 
 2 - Back-End --Server
