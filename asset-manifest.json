@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/facerecognitionbrain/static/css/main.073c9b0a.css",
-    "main.js": "/facerecognitionbrain/static/js/main.c05dafc0.js",
+    "main.css": "/facerecognitionbrain/static/css/main.93885942.css",
+    "main.js": "/facerecognitionbrain/static/js/main.5a483545.js",
     "static/js/787.6be3f59e.chunk.js": "/facerecognitionbrain/static/js/787.6be3f59e.chunk.js",
-    "static/media/logo.svg": "/facerecognitionbrain/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/media/brain.png": "/facerecognitionbrain/static/media/brain.b639461088a03ec669e3.png",
     "index.html": "/facerecognitionbrain/index.html",
-    "main.073c9b0a.css.map": "/facerecognitionbrain/static/css/main.073c9b0a.css.map",
-    "main.c05dafc0.js.map": "/facerecognitionbrain/static/js/main.c05dafc0.js.map",
+    "main.93885942.css.map": "/facerecognitionbrain/static/css/main.93885942.css.map",
+    "main.5a483545.js.map": "/facerecognitionbrain/static/js/main.5a483545.js.map",
     "787.6be3f59e.chunk.js.map": "/facerecognitionbrain/static/js/787.6be3f59e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.c05dafc0.js"
+    "static/css/main.93885942.css",
+    "static/js/main.5a483545.js"
   ]
 }
