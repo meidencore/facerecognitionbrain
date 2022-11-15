@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useEffect, useState }from 'react';
 import './App.css';
 import Navigation from '../components/Navigation/Navigation';
 import Logo from '../components/Logo/Logo';
@@ -42,13 +42,14 @@ const App = () => {
   });
 
   const requestOptions = {
-  method: 'POST',
-  headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Key ' + PAT
-  },
-  body: raw
-  };
+     method: 'POST',
+     headers: {
+         'Accept': 'application/json',
+         'Authorization': 'Key ' + PAT
+     },
+     body: raw
+     }
+
   ////////////////////////////////////////////////////////////////////////////////////////////
   // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
   // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
@@ -57,8 +58,12 @@ const App = () => {
 
   const onInputChange = (event) => {
     setInput(event.target.value);
-    setFaceBoxes([]);
   }
+
+  useEffect(() => {
+    setFaceBoxes([]);
+    setIMAGE_URL('');
+  },[input])
 
   const calculateFaceLocation = (data) => {
     const clarifaiFaceBoxes = data.outputs[0].data.regions.map(item => item.region_info.bounding_box);
@@ -79,12 +84,18 @@ const App = () => {
   }
 
   const onButtonSubmit = () => {
-    setIMAGE_URL(input);
-    fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
-      .then(response => response.json())
-      .then(result => setFaceBoxes(calculateFaceLocation(result)))
-      .catch(error => console.log('error', error));
+    setIMAGE_URL(input)
   }
+
+  useEffect(() =>{
+    if (IMAGE_URL !== '') {
+    fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
+    .then(response => response.json())
+    .then(result => setFaceBoxes(calculateFaceLocation(result)))
+    .catch(error => console.log('error', error));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[IMAGE_URL])
 
   return (
     <div className="App">
