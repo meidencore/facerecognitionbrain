@@ -1,6 +1,7 @@
 import React, { useEffect, useState }from 'react';
 import './App.css';
 import Navigation from '../components/Navigation/Navigation';
+import BackgroundParticles from '../components/BackgroundParticles/BackgroundParticles';
 import Logo from '../components/Logo/Logo';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
@@ -100,6 +101,7 @@ const App = () => {
   return (
     <div className="App">
       <Navigation />
+      <BackgroundParticles/>
       <Rank />
       <Logo />
       <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
