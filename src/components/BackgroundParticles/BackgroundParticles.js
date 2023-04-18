@@ -4,7 +4,6 @@ import { loadFull } from "tsparticles";
 
 const BackgroundParticles = () => {
     const particlesInit = useCallback(async engine => {
-        console.log(engine);
         // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
         // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
         // starting from v2 you can add only the features you need reducing the bundle size
@@ -84,8 +83,8 @@ const BackgroundParticles = () => {
                 "interactivity": {
                     "events": {
                         "onhover": {
-                            "enable": false,
-                            "mode": "grab",
+                            "enable": true,
+                            "mode": "bubble",
                             "parallax": {
                                 "enable": true,
                                 "smooth": 20,
@@ -106,8 +105,8 @@ const BackgroundParticles = () => {
                             }
                         },
                         "bubble": {
-                            "distance": 400,
-                            "size": 40,
+                            "distance": 200,
+                            "size": 7.5,
                             "duration": 2,
                             "opacity": 0.8,
                             "speed": 3
@@ -116,7 +115,7 @@ const BackgroundParticles = () => {
                             "distance": 200
                         },
                         "push": {
-                            "particles_nb": 4
+                            "particles_nb": 1
                         },
                         "remove": {
                             "particles_nb": 2
