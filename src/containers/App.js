@@ -1,4 +1,4 @@
-import React, { useEffect, useState }from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Navigation from '../components/Navigation/Navigation';
 import Signin from '../components/Signin/Signin';
@@ -66,6 +66,12 @@ const App = () => {
   // this will default to the latest version_id
   ////////////////////////////////////////////////////////////////////////////////
   
+  useEffect(() => {
+    fetch('http://localhost:3000/')
+      .then(response => response.json())
+      .then(console.log)
+  },[])
+
   ////////////////////////////////////////////////////////////////////////////////
   // image input functions 
   ////////////////////////////////////////////////////////////////////////////////   
