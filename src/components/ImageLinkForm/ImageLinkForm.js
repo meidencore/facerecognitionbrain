@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import './ImageLinkForm.css'
 
 const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
+
+    // const [ isImageloading, setIsImageLoading ] = useState(false)
+    // const [ isImageloaded, setIsImageLoaded ] = useState(false)
+    
+    
+    
     return (
     <div>
         <p className="f3">
@@ -12,6 +18,7 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
                 <input 
                 className="f4 pa2 w-70 center bn br3 br--left" type='text' 
                 onChange={onInputChange} 
+                placeholder="Insert an image link"
                 />
                 <button 
                 className="f4 w-30 link bn br3 br--right grow ph3 pv2 dib white bg-light-purple"
@@ -25,3 +32,5 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
 }
 
 export default ImageLinkForm
+
+

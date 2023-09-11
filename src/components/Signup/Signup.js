@@ -1,6 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Signup = ({ onRouteChange }) => {
+
+    const [ email, setEmail] = useState('');
+    const [ password, setPassword ] = useState('');
+    const [ name, setName ] = useState('');
+
+    const onNameChange = (event) => {
+        setName(event.target.value)
+    }
+
+    const onEmailChange = (event) => {
+        setEmail(event.target.value)
+    }
+
+    const onPasswordChange = (event) => {
+        setPassword(event.target.value)
+    }
+
+    const onButtonSubmit = () => {
+        fetch("http://localhost:3000/signup", {
+            method: "post",
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password
+            })
+        })
+        .then(response => response.json())
+        .then(onRouteChange('signin', false))   
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////
     return (
         <article 
@@ -16,6 +48,7 @@ const Signup = ({ onRouteChange }) => {
                         type="text" 
                         name="name" 
                         id="name"
+                        onChange={onNameChange}
                     />
                 </div>
                 <div className="mt3">
@@ -25,6 +58,7 @@ const Signup = ({ onRouteChange }) => {
                         type="email" 
                         name="email-address" 
                         id="email-address"
+                        onChange={onEmailChange}
                     />
                 </div>
                 <div className="mv3">
@@ -34,6 +68,7 @@ const Signup = ({ onRouteChange }) => {
                         type="password" 
                         name="password" 
                         id="password"
+                        onChange={onPasswordChange}
                     />
                 </div>
                 <div className="mv3">
@@ -51,7 +86,7 @@ const Signup = ({ onRouteChange }) => {
                     className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
                     type="submit" 
                     value="Sign Up"
-                    onClick={() => {onRouteChange('signin', false)}}
+                    onClick={onButtonSubmit}
                 />
                 </div>
             </div>
