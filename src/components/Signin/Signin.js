@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Signin = ({ onRouteChange }) => {
+const Signin = ({ loadUser, onRouteChange }) => {
+
+    const [signInEmail, setSignInEmail ] = useState('')
+    const [signInPassword, setSignInPassword ] = useState('')
+
+    const onEmailChange = (event) => {
+        setSignInEmail(event.target.value)
+    }
+
+    const onPasswordChange = (event) => {
+    setSignInPassword(event.target.value)
+    }  
+
+    const onButtonSubmit = () => {
+        fetch("http://localhost:3000/signin", {
+            method: "post",
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify({
+                email: signInEmail,
+                password: signInPassword
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.id) {
+                loadUser(data)
+                onRouteChange('home', true)
+            }
+        })   
+    }
+    
+
     ////////////////////////////////////////////////////////////////////////////////
     return (
         <>
@@ -13,6 +44,7 @@ const Signin = ({ onRouteChange }) => {
                 <div className="mt3">
                     <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                     <input 
+                        onChange={onEmailChange}
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         type="email" 
                         name="email-address" 
@@ -26,6 +58,7 @@ const Signin = ({ onRouteChange }) => {
                         type="password" 
                         name="password" 
                         id="password"
+                        onChange={onPasswordChange}
                     />
                 </div>
                 </fieldset>
@@ -34,7 +67,7 @@ const Signin = ({ onRouteChange }) => {
                     className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
                     type="submit" 
                     value="Sign in"
-                    onClick={() => {onRouteChange('home', true)}}
+                    onClick={onButtonSubmit}
                 />
                 </div>
             </div>

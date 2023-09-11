@@ -1,12 +1,12 @@
 import React from "react";
 
-const Navigation = ( { onRouteChange, signStatus, route }) => {
+const Navigation = ( { onRouteChange, signStatus, route, signout }) => {
     return (
         <nav className="flex justify-end">
             {signStatus && route === 'home' ? 
                 <p 
                 className="f3 link dim black underline pa3 pointer"
-                onClick={() => {onRouteChange('signin', false)}}
+                onClick={() => {signout()}}
                 >
                 {'Sign Out'}
                 </p>

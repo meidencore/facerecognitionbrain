@@ -20,6 +20,13 @@ const App = () => {
   const [ faceBoxes , setFaceBoxes ] = useState([]);
   const [ route, setRoute ] = useState('signin');
   const [ signStatus, setSignStatus ] = useState(false);
+  const [ user, setUser ] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  });
   ////////////////////////////////////////////////////////////////////////////////
 
   // API Config //////////////////////////////////////////////////////////////////
@@ -65,13 +72,6 @@ const App = () => {
   // MODEL_ID only https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs 
   // this will default to the latest version_id
   ////////////////////////////////////////////////////////////////////////////////
-  
-  useEffect(() => {
-    fetch('http://localhost:3000/')
-      .then(response => response.json())
-      .then(console.log)
-  },[])
-
   ////////////////////////////////////////////////////////////////////////////////
   // image input functions 
   ////////////////////////////////////////////////////////////////////////////////   
@@ -80,9 +80,11 @@ const App = () => {
   }
 
   useEffect(() => {
-    setFaceBoxes([]);
-    setIMAGE_URL('');
-  },[input])
+    if (faceBoxes.length !== 0) {
+      setFaceBoxes([]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[input])
   ////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -109,28 +111,45 @@ const App = () => {
   }
 
   const onButtonSubmit = () => {
-    setIMAGE_URL(input)
-  }
-
-  useEffect(() =>{
     if (IMAGE_URL !== '') {
       fetch("https://api.clarifai.com/v2/models/" 
         + MODEL_ID 
         + "/versions/" 
         + MODEL_VERSION_ID 
         + "/outputs", requestOptions)
-      .then(response => response.json())
-      .then(result => setFaceBoxes(calculateFaceLocation(result)))
-      .catch(error => console.log('error', error));
+        .then(response => {
+          if (response) {
+            fetch('http://localhost:3000/image', {
+              method: 'put',
+              headers: {'content-type': 'application/json'},
+              body: JSON.stringify({
+                  id: user.id
+                  })
+          })
+          .then(serverres => serverres.json())
+          .then(count => {
+            setUser(prevUser => ({ ...prevUser, entries: count }))
+              
+            })
+          }
+          return response.json()
+        }
+        )
+        .then(result => setFaceBoxes(calculateFaceLocation(result)))
+        .catch(error => console.log('error', error));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[IMAGE_URL])
+  }
+
+  useEffect(() => {
+    setIMAGE_URL(input)
+  },[input])
+
   ////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////
   // route functions
   ////////////////////////////////////////////////////////////////////////////////
-  const onRouteChange = (path, status) => {
+  function onRouteChange(path, status) {
     if (path === 'signin') {
       setRoute('signin');
       setSignStatus(false);
@@ -140,8 +159,34 @@ const App = () => {
     } else if (path === 'home' && status) {
       setRoute('home');
       setSignStatus(true);
-    } else setRoute('guest')
+    } else setRoute('guest');
   }
+
+  const signout = () => {
+    setInput('');
+    setIMAGE_URL('');
+    setFaceBoxes([]);
+    setRoute('signin');
+    setSignStatus(false);
+    setUser({
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: ''
+    })
+  }
+// after signin or signup the user information is loaded to the estate
+  const loadUser = (data) => {  
+    setUser({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      })
+   }
+
   ////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -154,18 +199,21 @@ const App = () => {
         onRouteChange={onRouteChange}
         signStatus={signStatus}
         route={route}
+        signout={signout}
       />
       { route === 'signin' ? 
           <Signin 
+            loadUser={loadUser}
             onRouteChange={onRouteChange}
           />
         : route === 'signup' ?
           <Signup 
+            loadUser={loadUser}
             onRouteChange={onRouteChange}
           />
         : route === 'home' ?
           <>
-            <Rank />
+            <Rank user={user}/>
             <Logo />
             <ImageLinkForm 
               onInputChange={onInputChange} 
